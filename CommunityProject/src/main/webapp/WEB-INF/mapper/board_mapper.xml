@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+						
+<mapper namespace="board">
+
+	<insert id="addContentInfo" parameterType="kr.co.beans.ContentBean">
+		<selectKey keyProperty="content_idx" order="BEFORE" resultType="java.lang.Integer">
+			select content_seq.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into content_table(content_idx, content_subject, content_text,
+			content_file, content_writer_idx, content_board_idx, content_date) 
+			values (#{content_idx}, #{content_subject}, #{content_text},
+			#{content_file, jdbcType=VARCHAR}, #{content_writer_idx}, #{content_board_idx}, sysdate)
+		]]>
+	</insert>
+	<!-- #{content_file, jdbcType=VARCHAR} -> null이 허용되는 컬럼에 null을 넣어도 오류가 발생하지 않도록 함.
+	안넣어주면 null이 허용되는 컬럼임에도 불구하고 마이바티스에서 오류가남.. -->	
+	
+	<!-- 게시판별 글번호 시퀀스 다르게 정의 -->
+	<insert id="addContentInfo2" parameterType="kr.co.beans.ContentBean">
+		<selectKey keyProperty="content_idx" order="BEFORE" resultType="java.lang.Integer">
+			select content_seq_b.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into content_table_b(content_idx, content_subject, content_text,
+			content_file, content_writer_idx, content_board_idx, content_date) 
+			values (#{content_idx}, #{content_subject}, #{content_text},
+			#{content_file, jdbcType=VARCHAR}, #{content_writer_idx}, #{content_board_idx}, sysdate)
+		]]>
+	</insert>
+	
+	<insert id="addContentInfo3" parameterType="kr.co.beans.ContentBean">
+		<selectKey keyProperty="content_idx" order="BEFORE" resultType="java.lang.Integer">
+			select content_seq_c.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into content_table_c(content_idx, content_subject, content_text,
+			content_file, content_writer_idx, content_board_idx, content_date) 
+			values (#{content_idx}, #{content_subject}, #{content_text},
+			#{content_file, jdbcType=VARCHAR}, #{content_writer_idx}, #{content_board_idx}, sysdate)
+		]]>
+	</insert>
+	
+	<insert id="addContentInfo4" parameterType="kr.co.beans.ContentBean">
+		<selectKey keyProperty="content_idx" order="BEFORE" resultType="java.lang.Integer">
+			select content_seq_d.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into content_table_d(content_idx, content_subject, content_text,
+			content_file, content_writer_idx, content_board_idx, content_date) 
+			values (#{content_idx}, #{content_subject}, #{content_text},
+			#{content_file, jdbcType=VARCHAR}, #{content_writer_idx}, #{content_board_idx}, sysdate)
+		]]>
+	</insert>
+	
+
+	<select id="getBoardInfoName" parameterType="java.lang.Integer" resultType="java.lang.String">
+		<![CDATA[
+			select board_info_name
+			from board_info_table
+			where board_info_idx = #{board_info_idx}
+		]]>
+	</select>
+	
+	<!-- 게시판별 글 목록 가져오기 -->
+	<select id="getContentList" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a1.content_idx, a1.content_subject, a2.user_name as content_writer_name, 
+					to_char(a1.content_date, 'YYYY-MM-DD') as content_date 
+			from content_table a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx
+			      and a1.content_board_idx = #{board_info_idx} 
+			order by a1.content_idx desc
+		]]>
+	</select>
+	
+	<select id="getContentList_b" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a1.content_idx, a1.content_subject, a2.user_name as content_writer_name, 
+					to_char(a1.content_date, 'YYYY-MM-DD') as content_date 
+			from content_table_b a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx
+			      and a1.content_board_idx = #{board_info_idx} 
+			order by a1.content_idx desc
+		]]>
+	</select>
+	
+	<select id="getContentList_c" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a1.content_idx, a1.content_subject, a2.user_name as content_writer_name, 
+					to_char(a1.content_date, 'YYYY-MM-DD') as content_date 
+			from content_table_c a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx
+			      and a1.content_board_idx = #{board_info_idx} 
+			order by a1.content_idx desc
+		]]>
+	</select>
+	
+	<select id="getContentList_d" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a1.content_idx, a1.content_subject, a2.user_name as content_writer_name, 
+					to_char(a1.content_date, 'YYYY-MM-DD') as content_date 
+			from content_table_d a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx
+			      and a1.content_board_idx = #{board_info_idx} 
+			order by a1.content_idx desc
+		]]>
+	</select>
+	
+	<!-- 게시판별 게시글 가져오기 -->
+	<select id="getContentInfo" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a2.user_name as content_writer_name, 
+				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
+			from content_table a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx 
+			and content_idx = #{content_idx}
+		]]>
+	</select>
+	
+	<select id="getContentInfo_b" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a2.user_name as content_writer_name, 
+				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
+			from content_table_b a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx 
+			and content_idx = #{content_idx}
+		]]>
+	</select>
+	
+	<select id="getContentInfo_c" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a2.user_name as content_writer_name, 
+				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
+			from content_table_c a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx 
+			and content_idx = #{content_idx}
+		]]>
+	</select>
+	
+	<select id="getContentInfo_d" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			select a2.user_name as content_writer_name, 
+				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
+			from content_table_d a1, user_table a2 
+			where a1.content_writer_idx = a2.user_idx 
+			and content_idx = #{content_idx}
+		]]>
+	</select>
+	
+	<!-- 게시판별 수정하기 -->
+	<update id="modifyContentInfo" parameterType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			update content_table 
+			set content_subject = #{content_subject}, content_text = #{content_text}, 
+				 content_file = #{content_file, jdbcType=VARCHAR} 
+			where content_idx = #{content_idx}
+		]]>
+	</update>
+	
+	<update id="modifyContentInfo_b" parameterType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			update content_table_b
+			set content_subject = #{content_subject}, content_text = #{content_text}, 
+				 content_file = #{content_file, jdbcType=VARCHAR} 
+			where content_idx = #{content_idx}
+		]]>
+	</update>
+	
+	<update id="modifyContentInfo_c" parameterType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			update content_table_c
+			set content_subject = #{content_subject}, content_text = #{content_text}, 
+				 content_file = #{content_file, jdbcType=VARCHAR} 
+			where content_idx = #{content_idx}
+		]]>
+	</update>
+	
+	<update id="modifyContentInfo_d" parameterType="kr.co.beans.ContentBean" >
+		<![CDATA[
+			update content_table_d
+			set content_subject = #{content_subject}, content_text = #{content_text}, 
+				 content_file = #{content_file, jdbcType=VARCHAR} 
+			where content_idx = #{content_idx}
+		]]>
+	</update>
+	
+	<!-- 게시판별 삭제하기 -->
+	<delete id="deleteContentInfo" parameterType="java.lang.Integer" >
+		<![CDATA[
+			delete from content_table where content_idx = #{content_idx}
+		]]>
+	</delete>
+	
+	<delete id="deleteContentInfo_b" parameterType="java.lang.Integer" >
+		<![CDATA[
+			delete from content_table_b where content_idx = #{content_idx}
+		]]>
+	</delete>
+	
+	<delete id="deleteContentInfo_c" parameterType="java.lang.Integer" >
+		<![CDATA[
+			delete from content_table_c where content_idx = #{content_idx}
+		]]>
+	</delete>
+	
+	<delete id="deleteContentInfo_d" parameterType="java.lang.Integer" >
+		<![CDATA[
+			delete from content_table_d where content_idx = #{content_idx}
+		]]>
+	</delete>
+	
+	<!-- 게시판별 페이지갯수 확인 -->
+	<select id="getContentCnt" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+		<![CDATA[
+			select count(*) 
+			from content_table 
+			where content_board_idx = #{content_board_idx}
+		]]>
+	</select>
+	
+	<select id="getContentCnt_b" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+		<![CDATA[
+			select count(*) 
+			from content_table_b
+			where content_board_idx = #{content_board_idx}
+		]]>
+	</select>
+	
+	<select id="getContentCnt_c" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+		<![CDATA[
+			select count(*) 
+			from content_table_c 
+			where content_board_idx = #{content_board_idx}
+		]]>
+	</select>
+	
+	<select id="getContentCnt_d" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+		<![CDATA[
+			select count(*) 
+			from content_table_d 
+			where content_board_idx = #{content_board_idx}
+		]]>
+	</select>
+</mapper>
