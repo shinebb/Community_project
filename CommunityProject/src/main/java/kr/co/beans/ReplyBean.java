@@ -1,13 +1,19 @@
 package kr.co.beans;
 
+import javax.validation.constraints.NotBlank;
+
+//댓글관리
 public class ReplyBean {
 
 	private int reply_idx; //댓글 번호
 	private String reply_writer_name; //댓글 작성자 이름
-	private String reply_date;	//댓글 작성날짜
+	
+	@NotBlank
 	private String reply_text; //댓글 내용
+	
 	private int reply_board_idx;	//게시판 번호(FK)
 	private int reply_content_idx; //게시글 번호(FK)
+	private String reply_date;	//댓글 작성날짜
 	
 	public int getReply_idx() {
 		return reply_idx;

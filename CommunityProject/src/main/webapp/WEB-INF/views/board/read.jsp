@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!-- contextPath를 포함한 절대경로 -->
 <c:set var="root" value="${pageContext.request.contextPath }/" />
 <!DOCTYPE html>
@@ -39,48 +40,69 @@
 		<div class="col-md-10">
 			<table class="table table-condensed center">
 			<thead>
-				<tr>
-                	<th width="10%">제목</th>
-                	<th width="60%">${readContentBean.content_subject}</th>
-            	</tr>
+			<tr>
+				<th width="10%"><label for="board_subject">제목</label></th>
+				<th width="60%"><input type="text" id="board_subject" name="board_subject" class="form-control" value="${readContentBean.content_subject}" disabled="disabled" readonly="true"/></th>
+            </tr>
             </thead>
             <tbody>
-            	<tr>
-                	<td>작성일</td>
-                	<td>${readContentBean.content_date}</td>
-            	</tr>
-                <tr>
-                    <td>작성자</td>
-                    <td>${readContentBean.content_writer_name }</td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                    <textarea id="board_content" name="board_content" class="form-control" rows="10" style="resize:none" disabled="disabled">${readContentBean.content_text}</textarea>
-                    <c:if test="${readContentBean.content_file != null }">
-						<div class="form-group">
-							<label for="board_file">첨부 이미지</label>
-							<img src="${root}upload/${readContentBean.content_file}" width="100%"/>						
-						</div>
-					</c:if>
-                    </td>
-                </tr>
+            <tr>
+               	<td><label for="board_date">작성날짜</label></td>
+               	<td><input type="text" id="board_date" name="board_date" class="form-control" value="${readContentBean.content_date}" readonly="true"/></td>
+            </tr>
+            <tr>
+                <td>작성자</td>
+                <td>${readContentBean.content_writer_name }</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                <textarea id="board_content" name="board_content" class="form-control" rows="10" style="resize:none" disabled="disabled">${readContentBean.content_text}</textarea>
+                <c:if test="${readContentBean.content_file != null }">
+					<div class="form-group">
+						<label for="board_file">첨부 이미지</label>
+						<img src="${root}upload/${readContentBean.content_file}" width="100%"/>						
+					</div>
+				</c:if>
+                </td>
+            </tr>
             </tbody>
 			</table>
 
             <table class="table table-condensed center">
-            	<tr>
-                	<td>
-                    <span class="form-inline" role="form">
-                    ${loginUserBean.user_name}
-                    <div class="form-group">
-                   		<div class="text-right">
-                    		<a href="#" class="btn btn-dark">댓글달기</a>
-                    	</div>
-                    </div>
-                    <textarea id="commentParentText" class="form-control col-lg-12" style="width:100%" rows="4"></textarea>
-                    </span>
-                    </td>
-                </tr>
+            <tr>
+            	<th>댓글</th>
+            </tr>
+           <%--  <c:if test="${replyContentBean.reply_board_idx == content_board_idx && replyContentBean.reply_content_idx == content_idx}"> --%>
+            <c:forEach var="obj" items="${replyList}">
+            <tr>
+            	<td>${obj.reply_writer_name}</td>
+            	<td>${obj.reply_date }</td>
+            </tr>
+            <tr>
+            	<td>${obj.reply_text }</td>
+            </tr>
+            </c:forEach>
+           <%--  </c:if>  --%>
+            <tr>
+               	<td>
+               	<form:form action="${root}board/reply_pro?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" method="post" modelAttribute="replyContentBean" enctype="multipart/form-data">
+                	<!-- <span class="form-inline" role="form"> -->
+                	<div class="form-group">
+						<form:label path="reply_writer_name">${loginUserBean.user_name}</form:label>
+						<form:hidden path="reply_writer_name"/>
+						<form:button class="btn btn-dark">댓글달기</form:button>
+				</div>
+				
+				<div class="form-group">
+					<form:label path="reply_text"></form:label>
+					<form:textarea path="reply_text" class="form-control col-lg-12" style="width:100%" rows="4"/>
+					<form:errors path="reply_text" style="color:red" />
+				</div>
+                    
+                <!-- </span> -->
+                </form:form>
+             	</td>
+            </tr>
 			</table>
 			
 			<table class="table table-condensed center">
