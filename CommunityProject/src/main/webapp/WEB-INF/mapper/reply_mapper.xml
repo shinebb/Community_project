@@ -10,18 +10,18 @@
 			select reply_seq.nextval from dual
 		</selectKey>
 		<![CDATA[
-			insert into reply_table(reply_idx, reply_writer_name, reply_text,
-			reply_board_idx, reply_content_idx, reply_date) 
-			values (#{reply_idx}, #{reply_writer_name}, #{reply_text},
-			#{reply_board_idx}, #{reply_content_idx}, sysdate)
+			insert into reply_table(reply_idx, reply_writer_name, reply_writer_idx,
+			reply_text, reply_board_idx, reply_content_idx, reply_date) 
+			values (#{reply_idx}, #{reply_writer_name}, #{reply_writer_idx}, 
+			#{reply_text}, #{reply_board_idx}, #{reply_content_idx}, sysdate)
 		]]>
 	</insert>
 	
 	<!-- 게시판별 댓글 가져오기 -->
 	<select id="getReplyList" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_writer_name, reply_text,
-				   to_char(reply_date, 'YYYY-MM-DD') as reply_date 
+			select reply_idx, reply_writer_name, reply_text,
+				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 1 
 			      and reply_content_idx = #{content_idx}
@@ -31,8 +31,8 @@
 	
 	<select id="getReplyList_b" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_writer_name, reply_text,
-				   to_char(reply_date, 'YYYY-MM-DD') as reply_date 
+			select reply_idx, reply_writer_name, reply_text,
+				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 2 
 			      and reply_content_idx = #{content_idx}
@@ -42,8 +42,8 @@
 	
 	<select id="getReplyList_c" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_writer_name, reply_text,
-				   to_char(reply_date, 'YYYY-MM-DD') as reply_date 
+			select reply_idx, reply_writer_name, reply_text,
+				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 3 
 			      and reply_content_idx = #{content_idx}
@@ -53,8 +53,8 @@
 	
 	<select id="getReplyList_d" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_writer_name, reply_text,
-				   to_char(reply_date, 'YYYY-MM-DD') as reply_date 
+			select reply_idx, reply_writer_name, reply_text,
+				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 4 
 			      and reply_content_idx = #{content_idx}

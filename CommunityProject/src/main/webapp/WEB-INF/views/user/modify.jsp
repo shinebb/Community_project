@@ -48,7 +48,7 @@
 						<!-- readonly="true" 수정은 불가능하지만 입력된 데이터는 서버로 전달되어 모델어트리뷰트에 저장된다. -->
 					</div>
 					<div class="form-group">
-						<form:label path="user_id">이름</form:label>
+						<form:label path="user_id">아이디</form:label>
 						<form:input path="user_id" class="form-control" readonly="true"/>
 					</div>
 					<div class="form-group">

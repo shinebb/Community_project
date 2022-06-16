@@ -7,6 +7,7 @@ public class ReplyBean {
 
 	private int reply_idx; //댓글 번호
 	private String reply_writer_name; //댓글 작성자 이름
+	private int reply_writer_idx;
 	
 	@NotBlank
 	private String reply_text; //댓글 내용
@@ -31,6 +32,14 @@ public class ReplyBean {
 		this.reply_writer_name = reply_writer_name;
 	}
 	
+	public int getReply_writer_idx() {
+		return reply_writer_idx;
+	}
+
+	public void setReply_writer_idx(int reply_writer_idx) {
+		this.reply_writer_idx = reply_writer_idx;
+	}
+
 	public String getReply_date() {
 		return reply_date;
 	}

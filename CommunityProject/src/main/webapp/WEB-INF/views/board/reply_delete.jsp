@@ -5,5 +5,5 @@
 <c:set var="root" value="${pageContext.request.contextPath }/" />
 <script>
 	alert("삭제되었습니다.")
-	location.href = "${root}board/read?board_info_idx=${writeContentBean.content_board_idx}&content_idx=${writeContentBean.content_idx}&page=${page}"
+	location.href = "${root}board/read?board_info_idx=${replyContentBean.reply_board_idx}&content_idx=${replyContentBean.reply_content_idx}&page=${page}"
 </script>

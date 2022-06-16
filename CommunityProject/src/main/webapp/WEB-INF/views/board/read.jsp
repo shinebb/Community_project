@@ -34,93 +34,155 @@
 <c:import url="/WEB-INF/views/include/top_menu.jsp"/>
 
 <section class="page-section" style="margin-top:7rem;">
-<div class="container">
-	<hr/>
-	<div class="row">
-		<div class="col-md-10">
-			<table class="table table-condensed center">
-			<thead>
-			<tr>
-				<th width="10%"><label for="board_subject">제목</label></th>
-				<th width="60%"><input type="text" id="board_subject" name="board_subject" class="form-control" value="${readContentBean.content_subject}" disabled="disabled" readonly="true"/></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-               	<td><label for="board_date">작성날짜</label></td>
-               	<td><input type="text" id="board_date" name="board_date" class="form-control" value="${readContentBean.content_date}" readonly="true"/></td>
-            </tr>
-            <tr>
-                <td>작성자</td>
-                <td>${readContentBean.content_writer_name }</td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                <textarea id="board_content" name="board_content" class="form-control" rows="10" style="resize:none" disabled="disabled">${readContentBean.content_text}</textarea>
-                <c:if test="${readContentBean.content_file != null }">
-					<div class="form-group">
-						<label for="board_file">첨부 이미지</label>
-						<img src="${root}upload/${readContentBean.content_file}" width="100%"/>						
-					</div>
-				</c:if>
-                </td>
-            </tr>
-            </tbody>
-			</table>
 
-            <table class="table table-condensed center">
-            <tr>
-            	<th>댓글</th>
-            </tr>
+<div class="container">
+<div class="col-md-12" style="float: none; margin:0 auto;" >
+<div class="card shadow">
+<div class="card-body">
+		
+	<div class="container">
+	<div class="row" >
+	<div class="col-md-11" style="float: none; margin:0 auto;" >
+		<table class="table table-condensed center">
+		<thead >
+		<tr style="border-top:3px solid #ffc800; border-bottom:3px solid #ffc800;">
+			<th width="10%">제목</th>
+            <th width="60%">${readContentBean.content_subject}</th>
+			<%-- <th width="10%"><label for="board_subject">제목</label></th>
+			<th width="60%"><input type="text" id="board_subject" name="board_subject" class="form-control" value="${readContentBean.content_subject}" readonly="true" /></th> --%>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          	<td>작성날짜</td>
+            <td>${readContentBean.content_date}</td>
+              	<%-- <td><label for="board_date">작성날짜</label></td>
+               	<td><input type="text" id="board_date" name="board_date" class="form-control" value="${readContentBean.content_date}" readonly="true" /></td> --%>
+        </tr>
+        <tr>
+            <td>작성자</td>
+            <td>${readContentBean.content_writer_name }</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+            <textarea id="board_content" name="board_content" class="form-control" rows="10" style="resize:none" disabled="disabled">${readContentBean.content_text}</textarea>
+                
+            <c:if test="${readContentBean.content_file != null }">
+				<div class="form-group">
+					<label for="board_file">첨부 이미지</label>
+					<img src="${root}upload/${readContentBean.content_file}" width="100%"/>						
+				</div>
+			</c:if>
+            </td>
+        </tr>
+        </tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+
+	<div class="container">
+	<div class="row">
+	<div class="col-md-11" style="float: none; margin:0 auto;">
+		<!-- <table class="table table-condensed center">  table-striped-->
+		<table class="table table-condensed" style="text-align: center; border: 1px sol">
+		<tbody>
+		<tr>
+           	<td align="left" style="background-color: #f5f5f5;">댓글</td>
+        </tr>
+		<tr>  
            <%--  <c:if test="${replyContentBean.reply_board_idx == content_board_idx && replyContentBean.reply_content_idx == content_idx}"> --%>
             <c:forEach var="obj" items="${replyList}">
-            <tr>
-            	<td>${obj.reply_writer_name}</td>
-            	<td>${obj.reply_date }</td>
-            </tr>
-            <tr>
-            	<td>${obj.reply_text }</td>
-            </tr>
+            	<div class="container">
+				<div class="row">
+				<div class="col-md-11" style="float: none; margin:0 auto;">
+					<table class="table table-condensed" style="text-align: center; border: 1px solid #dddddd">
+					<tbody>
+					<tr>
+						<td align="left" style="background-color: #f5f5f5;">${obj.reply_writer_name} &nbsp;&nbsp;&nbsp; ${obj.reply_date }</td>
+						<!-- <td colspan="2"></td> -->
+						<c:if test="${loginUserBean.user_idx == replyContentBean.reply_writer_idx}">
+            			<td align="right" style="background-color: #f5f5f5;"><a href="${root}board/reply_delete?reply_idx=${obj.reply_idx}&board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" class="btn btn-light">삭제</a></td>
+            			</c:if>
+            			
+            		</tr>
+            		<tr>
+            			<td colspan="5" align="left">${obj.reply_text }</td>
+            		</tr>
+					</tbody>
+            	<%-- <td width="10%">${obj.reply_writer_name}</td>
+            	<td width="70%">${obj.reply_date }</td> --%>
+
+            <%-- <tr>
+            	<td colspan="3">${obj.reply_text }</td>
+            </tr> --%>
+            		</table>
+            	</div>
+            	</div>
+            	</div>
             </c:forEach>
+        </tbody>
+        </table>
            <%--  </c:if>  --%>
-            <tr>
-               	<td>
-               	<form:form action="${root}board/reply_pro?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" method="post" modelAttribute="replyContentBean" enctype="multipart/form-data">
-                	<!-- <span class="form-inline" role="form"> -->
-                	<div class="form-group">
-						<form:label path="reply_writer_name">${loginUserBean.user_name}</form:label>
-						<form:hidden path="reply_writer_name"/>
-						<form:button class="btn btn-dark">댓글달기</form:button>
-				</div>
-				
-				<div class="form-group">
-					<form:label path="reply_text"></form:label>
-					<form:textarea path="reply_text" class="form-control col-lg-12" style="width:100%" rows="4"/>
-					<form:errors path="reply_text" style="color:red" />
-				</div>
-                    
-                <!-- </span> -->
-                </form:form>
-             	</td>
-            </tr>
-			</table>
-			
-			<table class="table table-condensed center">
-            	<div class="form-group">
-					<div class="text-right">
-						<a href="${root}board/main?board_info_idx=${board_info_idx}&page=${page}" class="btn btn-primary">목록보기</a>
-						<c:if test="${loginUserBean.user_idx == readContentBean.content_writer_idx}">
-							<a href="${root}board/modify?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" class="btn btn-info">수정하기</a>
-							<a href="${root}board/delete?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-danger">삭제하기</a>
-						</c:if>
-					</div>
-				</div>
-            </table>
-		</div>
     </div>
-    <hr/>
-</div>    
-        
+	</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+           
+	<div class="container">
+	<div class="row">
+	<div class="col-md-11" style="float: none; margin:0 auto; margin-top:2rem;">
+		<%-- <form:form action="${root}board/reply_pro?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" method="post" modelAttribute="replyContentBean" enctype="multipart/form-data"> --%>
+		<form:form action="${root}board/reply_pro" method="post" modelAttribute="replyContentBean" enctype="multipart/form-data">
+        	<input type="hidden" name="page" value="${page}" />
+			<input type="hidden" name="board_info_idx" value="${board_info_idx}" />
+			<input type="hidden" name="content_idx" value="${content_idx}" />
+				
+			<table class="table " style="text-align: center; border: 1px solid #dddddd; background-color: #e9ecef;">
+            <tr>
+                <td style="border-bottom:none; " valign="middle">
+					<form:label path="reply_writer_name" style="margin-top:2rem;" >${loginUserBean.user_name}</form:label>
+					<form:hidden path="reply_writer_name"/>
+				</td>
+				<td>
+					<%-- <form:label path="reply_text"></form:label> --%>
+					<form:textarea path="reply_text" class="form-control col-lg-12" style="width:100%" rows="3"/>
+					<form:errors path="reply_text" style="color:red" />
+				</td>
+				<td>
+					<form:button class="btn btn-dark" style="margin-top:1rem;">댓글달기</form:button>
+				</td>
+			</tr>
+			</table>
+		</form:form>
+	</div>
+	</div>
+	</div>
+			
+	<div class="container">		
+	<div class="row">
+	<div class="col-md-11" style="float: none; margin:0 auto;">
+		<table class="table table-condensed center">
+		
+            <div class="text-right">
+				<a href="${root}board/main?board_info_idx=${board_info_idx}&page=${page}" class="btn btn-primary">목록보기</a>
+				<c:if test="${loginUserBean.user_idx == readContentBean.content_writer_idx}">
+				<a href="${root}board/modify?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" class="btn btn-info">수정하기</a>
+				<a href="${root}board/delete?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-danger">삭제하기</a>
+				</c:if>
+			</div>
+		
+		</table>
+	</div>
+	</div>
+	</div>
+   
+
+
+</section>
         
 <%-- <div class="container" >
 	<div class="row">
@@ -165,7 +227,7 @@
 		<div class="col-sm-3"></div>
 	</div>
 </div> --%>
-</section>
+
 
 <!-- 하단 부분 -->
 <c:import url="/WEB-INF/views/include/bottom_info.jsp"/>

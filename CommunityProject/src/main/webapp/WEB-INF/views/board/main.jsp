@@ -33,10 +33,12 @@
 <c:import url="/WEB-INF/views/include/top_menu.jsp"/>  
         
 <!-- 게시글 리스트 -->
-<section class="page-section" id="services" style="margin-top:7rem;">
+<section class="page-section"  style="margin-top:7rem;">
 <div class="container"  >
+<div class="col-md-12" style="float: none; margin:0 auto;">
 	<div class="card shadow">
 		<div class="card-body">
+		
 			<h4 class="card-title">${boardInfoName}</h4>
 			<table class="table table-hover" id='board_list'>
 				<thead>
@@ -107,6 +109,7 @@
 			</div>
 			
 		</div>
+	</div>
 	</div>
 </div>
 </section>

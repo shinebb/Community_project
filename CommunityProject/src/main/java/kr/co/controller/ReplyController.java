@@ -34,13 +34,15 @@ public class ReplyController {
 	private UserBean loginUserBean;
 	
 	@PostMapping("/reply_pro")
-	public String write_pro(@Valid @ModelAttribute("replyContentBean") ReplyBean replyContentBean, BindingResult result,
+	public String reply_pro(@Valid @ModelAttribute("replyContentBean") ReplyBean replyContentBean, BindingResult result,
 							@RequestParam("content_idx") int content_idx,
 							@RequestParam("board_info_idx") int board_info_idx,
 							@RequestParam("page") int page, Model model) {
 		
 		replyContentBean.setReply_content_idx(content_idx);
 		replyContentBean.setReply_board_idx(board_info_idx);
+		model.addAttribute("board_info_idx", board_info_idx);
+		model.addAttribute("content_idx", content_idx);
 		model.addAttribute("page", page);
 		
 		if(result.hasErrors()) {
@@ -53,14 +55,21 @@ public class ReplyController {
 	}
 	
 	@GetMapping("/reply_delete")
-	public String delete(@RequestParam("reply_idx") int reply_idx,
+	public String delete(@ModelAttribute("replyContentBean") ReplyBean replyContentBean,
+						 @RequestParam("reply_idx") int reply_idx,
 						 @RequestParam("board_info_idx") int board_info_idx,
-						 @RequestParam("content_idx") int content_idx, Model model) {
-		
-		replyService.deleteReply(reply_idx);
-		
+						 @RequestParam("content_idx") int content_idx, 
+						 @RequestParam("page") int page, Model model) {
+			
+		model.addAttribute("reply_idx", reply_idx);
 		model.addAttribute("board_info_idx", board_info_idx);
 		model.addAttribute("content_idx", content_idx);
+		model.addAttribute("page", page);
+		
+		replyContentBean.setReply_content_idx(content_idx);
+		replyContentBean.setReply_board_idx(board_info_idx);
+		
+		replyService.deleteReply(reply_idx);
 		
 		return "board/reply_delete";
 	}

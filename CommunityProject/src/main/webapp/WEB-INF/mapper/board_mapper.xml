@@ -113,7 +113,7 @@
 	<select id="getContentInfo" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
 		<![CDATA[
 			select a2.user_name as content_writer_name, 
-				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   to_char(a1.content_date, 'YYYY-MM-DD hh24:mi:ss') as content_date, 
 				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
 			from content_table a1, user_table a2 
 			where a1.content_writer_idx = a2.user_idx 
@@ -124,7 +124,7 @@
 	<select id="getContentInfo_b" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
 		<![CDATA[
 			select a2.user_name as content_writer_name, 
-				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   to_char(a1.content_date, 'YYYY-MM-DD hh24:mi:ss') as content_date, 
 				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
 			from content_table_b a1, user_table a2 
 			where a1.content_writer_idx = a2.user_idx 
@@ -135,7 +135,7 @@
 	<select id="getContentInfo_c" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
 		<![CDATA[
 			select a2.user_name as content_writer_name, 
-				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   to_char(a1.content_date, 'YYYY-MM-DD hh24:mi:ss') as content_date, 
 				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
 			from content_table_c a1, user_table a2 
 			where a1.content_writer_idx = a2.user_idx 
@@ -146,7 +146,7 @@
 	<select id="getContentInfo_d" parameterType="java.lang.Integer" resultType="kr.co.beans.ContentBean" >
 		<![CDATA[
 			select a2.user_name as content_writer_name, 
-				   to_char(a1.content_date, 'YYYY-MM-DD') as content_date, 
+				   to_char(a1.content_date, 'YYYY-MM-DD hh24:mi:ss') as content_date, 
 				   a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx
 			from content_table_d a1, user_table a2 
 			where a1.content_writer_idx = a2.user_idx 

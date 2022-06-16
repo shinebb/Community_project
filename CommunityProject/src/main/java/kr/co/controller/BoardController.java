@@ -70,9 +70,11 @@ public class BoardController {
 
 		model.addAttribute("board_info_idx", board_info_idx);
 		model.addAttribute("content_idx", content_idx);
+		
 
-		replyContentBean.setReply_content_idx(content_idx);
-		replyContentBean.setReply_board_idx(board_info_idx);
+
+//		replyContentBean.setReply_content_idx(content_idx);
+//		replyContentBean.setReply_board_idx(board_info_idx);
 
 		ContentBean readContentBean = boardService.getContentInfo(board_info_idx, content_idx);
 		model.addAttribute("readContentBean", readContentBean);
@@ -156,9 +158,10 @@ public class BoardController {
 			@RequestParam("content_idx") int content_idx, Model model) {
 
 		boardService.deleteContentInfo(board_info_idx, content_idx);
-
+		
 		model.addAttribute("board_info_idx", board_info_idx);
-
+		
+		
 		return "board/delete";
 	}
 

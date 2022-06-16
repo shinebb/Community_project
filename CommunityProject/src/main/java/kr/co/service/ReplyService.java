@@ -32,6 +32,7 @@ public class ReplyService {
 	public void addReply(ReplyBean replyContentBean) {
 		
 		replyContentBean.setReply_writer_name(loginUserBean.getUser_name());
+		replyContentBean.setReply_writer_idx(loginUserBean.getUser_idx());
 		
 		replyDao.addReply(replyContentBean);
 		
