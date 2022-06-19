@@ -99,9 +99,9 @@
 					<table class="table table-condensed" style="text-align: center; border: 1px solid #dddddd">
 					<tbody>
 					<tr>
-						<td align="left" style="background-color: #f5f5f5;">${obj.reply_writer_name} &nbsp;&nbsp;&nbsp; ${obj.reply_date }</td>
+						<td align="left" style="background-color: #f5f5f5;">${obj.reply_writer_name} &nbsp;&nbsp;&nbsp; ${obj.reply_date } </td>
 						<!-- <td colspan="2"></td> -->
-						<c:if test="${loginUserBean.user_idx == replyContentBean.reply_writer_idx}">
+						<c:if test="${loginUserBean.user_idx == obj.reply_writer_idx}">
             			<td align="right" style="background-color: #f5f5f5;"><a href="${root}board/reply_delete?reply_idx=${obj.reply_idx}&board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}" class="btn btn-light">삭제</a></td>
             			</c:if>
             			
@@ -140,6 +140,7 @@
         	<input type="hidden" name="page" value="${page}" />
 			<input type="hidden" name="board_info_idx" value="${board_info_idx}" />
 			<input type="hidden" name="content_idx" value="${content_idx}" />
+			<form:hidden path="reply_writer_idx"/>
 				
 			<table class="table " style="text-align: center; border: 1px solid #dddddd; background-color: #e9ecef;">
             <tr>

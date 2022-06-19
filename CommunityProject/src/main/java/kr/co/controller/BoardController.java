@@ -73,9 +73,6 @@ public class BoardController {
 		
 
 
-//		replyContentBean.setReply_content_idx(content_idx);
-//		replyContentBean.setReply_board_idx(board_info_idx);
-
 		ContentBean readContentBean = boardService.getContentInfo(board_info_idx, content_idx);
 		model.addAttribute("readContentBean", readContentBean);
 

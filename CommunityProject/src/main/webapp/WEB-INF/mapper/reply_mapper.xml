@@ -20,7 +20,7 @@
 	<!-- 게시판별 댓글 가져오기 -->
 	<select id="getReplyList" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_idx, reply_writer_name, reply_text,
+			select reply_writer_idx, reply_idx, reply_writer_name, reply_text,
 				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 1 
@@ -31,34 +31,34 @@
 	
 	<select id="getReplyList_b" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_idx, reply_writer_name, reply_text,
+			select reply_writer_idx, reply_idx, reply_writer_name, reply_text,
 				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 2 
 			      and reply_content_idx = #{content_idx}
-			order by reply_idx desc
+			order by reply_idx asc
 		]]>
 	</select>
 	
 	<select id="getReplyList_c" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_idx, reply_writer_name, reply_text,
+			select reply_writer_idx, reply_idx, reply_writer_name, reply_text,
 				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 3 
 			      and reply_content_idx = #{content_idx}
-			order by reply_idx desc
+			order by reply_idx asc
 		]]>
 	</select>
 	
 	<select id="getReplyList_d" parameterType="java.lang.Integer" resultType="kr.co.beans.ReplyBean" >
 		<![CDATA[
-			select reply_idx, reply_writer_name, reply_text,
+			select reply_writer_idx, reply_idx, reply_writer_name, reply_text,
 				   to_char(reply_date, 'YYYY-MM-DD hh24:mi:ss') as reply_date 
 			from reply_table
 			where reply_board_idx = 4 
 			      and reply_content_idx = #{content_idx}
-			order by reply_idx desc
+			order by reply_idx asc
 		]]>
 	</select>
 	

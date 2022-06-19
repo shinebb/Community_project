@@ -93,11 +93,11 @@ public class BoardDAO {
 		if(content_board_idx == 1)	{
 			return sqlSessionTemplate.selectOne("board.getContentCnt", content_board_idx);
 		} else if(content_board_idx == 2) {
-			return sqlSessionTemplate.selectOne("board.getContentCnt", content_board_idx);
+			return sqlSessionTemplate.selectOne("board.getContentCnt_b", content_board_idx);
 		} else if(content_board_idx == 3) {
-			return sqlSessionTemplate.selectOne("board.getContentCnt", content_board_idx);
+			return sqlSessionTemplate.selectOne("board.getContentCnt_c", content_board_idx);
 		} else {
-			return sqlSessionTemplate.selectOne("board.getContentCnt", content_board_idx);
+			return sqlSessionTemplate.selectOne("board.getContentCnt_d", content_board_idx);
 		}
 
 	}
